@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ejemplo de WebGazer.js</title>
+  <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+  <script>
+    window.onload = function () {
+      const startBtn = document.getElementById("startBtn");
+      const progressBar = document.getElementById("progressBar");
+      const focusPoint = document.getElementById("focusPoint");
+      const recordTime = document.getElementById("recordTime");
+      let calibProgress = 0;
+      let maxTime = 0;
+      let timer;
+      let gazeTime = 0;
+
+      function updateProgress() {
+        if (calibProgress === 100) {
+          clearInterval(timer);
+          focusPoint.style.display = "block";
+          recordTime.style.display = "block";
+          return;
+        }
+        calibProgress++;
+        progressBar.value = calibProgress;
+      }
+
+      startBtn.addEventListener("click", function () {
+        progressBar.style.display = "block";
+        timer = setInterval(updateProgress, 50);
+        webgazer
+          .setGazeListener(function (data, elapsedTime) {
+            if (data == null) {
+              return;
+            }
+            if (
+              data.x >= focusPoint.offsetLeft &&
+              data.x <= focusPoint.offsetLeft + focusPoint.offsetWidth &&
+              data.y >= focusPoint.offsetTop &&
+              data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
+            ) {
+              gazeTime++;
+              if (gazeTime > maxTime) {
+                maxTime = gazeTime;
+                recordTime.innerHTML = `Record actual: ${maxTime} segundos`;
+              }
+            } else {
+              gazeTime = 0;
+            }
+          })
+          .begin();
+      });
+
+      const exitBtn = document.getElementById("exitBtn");
+      exitBtn.addEventListener("click", function () {
+        window.location.href = "TU_LINK_AQUI";
+      });
+    };
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 16px;
+    }
+
+    #startBtn {
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #startBtn:hover {
+      background-color: #0069d9;
+    }
+
+    #progressBar {
+      display: none;
+      width: 100%;
+    }
+
+    #focusPoint {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-top: -10px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    #recordTime {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #exitBtn {
+      display: block;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #exitBtn:hover {
+      background-color: #0069d9;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        max-width: 600px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        max-width: 300px;
+        font-size: 12px;
+      }
+
+      #startBtn {
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Detector de Movimiento de Ojos por Inteligencia Artificial</h1>
+    <p>Haga clic en el botón a continuación para iniciar la calibración:</p>
+    <button id="startBtn">Iniciar Calibración</button>
+    <div id="progressBar"></div>
+    <div id="focusPoint" class="hidden"></div>
+    <div id="recordTime" class="hidden">
+      <p>Tiempo en segundos que ha mantenido la mirada en el punto rojo:</p>
+      <div id="timerTime">0</div>
+      <p>Record del tiempo más largo en segundos:</p>
+      <div id="recordTime">0</div>
+    </div>
+    <button id="exitBtn">Salir de la sesión</button>
+  </div>
+</body>
+
+</html>
