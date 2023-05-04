@@ -22,6 +22,9 @@
           clearInterval(timer);
           focusPoint.style.display = "block";
           recordTime.style.display = "block";
+          // Oculta el cuadro de la cámara
+          const video = document.querySelector("#webgazerVideoFeed");
+          video.style.display = "none";
           return;
         }
         calibProgress++;
@@ -56,7 +59,7 @@
 
       const exitBtn = document.getElementById("exitBtn");
       exitBtn.addEventListener("click", function () {
-        window.location.href = "TU_LINK_AQUI";
+        window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
       });
     };
   </script>
