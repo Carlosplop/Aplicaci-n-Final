@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ejemplo de WebGazer.js</title>
+  <title>Detector de Movimiento de los Ojos</title>
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
   <script>
 
-    function setVideoViewerSize() {
+function setVideoViewerSize() {
       const screenWidth = window.screen.width;
       const screenHeight = window.screen.height;
       const videoViewerSize = Math.max(screenWidth, screenHeight) * 1.5;
@@ -37,10 +37,8 @@
       // Do something with gaze data
     }).begin();
 
-
-
     window.onload = function () {
-      const startBtn = document.getElementById("startBtn");
+      const calibrateBtn = document.getElementById("calibrateBtn");
       const progressBar = document.getElementById("progressBar");
       const focusPoint = document.getElementById("focusPoint");
       const recordTime = document.getElementById("recordTime");
@@ -63,7 +61,7 @@
         progressBar.value = calibProgress;
       }
 
-      startBtn.addEventListener("click", function () {
+      calibrateBtn.addEventListener("click", function () {
         progressBar.style.display = "block";
         timer = setInterval(updateProgress, 50);
         webgazer
@@ -205,18 +203,17 @@
 
 <body>
   <div class="container">
-    <h1>Detector de Movimiento de Ojos por Inteligencia Artificial</h1>
-    <p>Haga clic en el botón a continuación para iniciar la calibración:</p>
-    <button id="startBtn">Iniciar Calibración</button>
-    <div id="progressBar"></div>
-    <div id="focusPoint" class="hidden"></div>
-    <div id="recordTime" class="hidden">
-      <p>Tiempo en segundos que ha mantenido la mirada en el punto rojo:</p>
-      <div id="timerTime">0</div>
-      <p>Record del tiempo más largo en segundos:</p>
-      <div id="recordTime">0</div>
-    </div>
-    <button id="exitBtn">Salir de la sesión</button>
+    <h1>Detector de Movimiento de los Ojos</h1>
+    <p>Este sitio utiliza la librería <a href="https://webgazer.cs.brown.edu/">WebGazer</a> para detectar el movimiento de tus ojos.</p>
+    <p>Presiona el botón "Calibrar" para comenzar.</p>
+    <button id="calibrateBtn">Calibrar</button>
+    <progress id="progressBar" value="0" max="100"></progress>
+    <div id="focusPoint"></div>
+    <p id="recordTime"></p>
+    <button id="exitBtn">Salir</button>
+  </div>
+  <div class="webgazer-video-container hidden">
+    <video id="webgazerVideoFeed"></video>
   </div>
 </body>
 
