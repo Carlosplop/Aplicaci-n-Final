@@ -7,6 +7,36 @@
   <title>Ejemplo de WebGazer.js</title>
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
   <script>
+
+    function setVideoViewerSize() {
+      const screenWidth = window.screen.width;
+      const screenHeight = window.screen.height;
+      const videoViewerSize = Math.max(screenWidth, screenHeight) * 1.5;
+      webgazer.setVideoViewerSize(videoViewerSize, videoViewerSize);
+    }
+
+    setVideoViewerSize();
+
+    webgazer.setGazeListener(function (data, timestamp) {
+      if (data == null) {
+        return;
+      }
+      // Do something with gaze data
+    }).begin(20);
+
+    webgazer.setGazeListener(function (data, timestamp) {
+      if (webgazer.getTracker().getIsReady() && !isCalibrated) {
+        webgazer.pause();
+        setTimeout(function () {
+          isCalibrated = true;
+          webgazer.resume();
+        }, 5000);
+      }
+      // Do something with gaze data
+    }).begin();
+
+
+
     window.onload = function () {
       const startBtn = document.getElementById("startBtn");
       const progressBar = document.getElementById("progressBar");
