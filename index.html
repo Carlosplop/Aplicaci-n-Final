@@ -7,86 +7,89 @@
   <title>Detector de Movimiento de los Ojos</title>
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
-  <script>
-    let isCalibrated = false;
+  <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
-    webgazer
-      .setGazeListener(function (data, timestamp) {
-        if (data == null) {
-          return;
-        }
-        // Hacer algo con los datos de la mirada
-      })
-      .begin();
-
-    webgazer
-      .setGazeListener(function (data, timestamp) {
-        if (webgazer.isReady() && !isCalibrated) {
-          webgazer.pause();
-          setTimeout(function () {
-            isCalibrated = true;
-            webgazer.resume();
-          }, 5000);
-        }
-        // Hacer algo con los datos de la mirada
-      });
-
-    window.addEventListener("load", function () {
-      const calibrateBtn = document.getElementById("calibrateBtn");
-      const progressBar = document.getElementById("progressBar");
-      const focusPoint = document.getElementById("focusPoint");
-      const recordTime = document.getElementById("recordTime");
-      let calibProgress = 0;
-      let maxTime = 0;
-      let timer;
-      let gazeTime = 0;
-
-      function updateProgress() {
-        if (calibProgress === 100) {
-          clearInterval(timer);
-          focusPoint.style.display = "block";
-          recordTime.style.display = "block";
-          // Ocultar el cuadro de la cámara
-          const video = document.querySelector("#webgazerVideoFeed");
-          video.style.display = "none";
-          return;
-        }
-        calibProgress++;
-        progressBar.value = calibProgress;
+<script>
+  let isCalibrated = false;
+  
+  webgazer
+    .setGazeListener(function(data, timestamp) {
+      if (data == null) {
+        return;
       }
+      // Hacer algo con los datos de la mirada
+    })
+    .begin();
 
-      calibrateBtn.addEventListener("click", function () {
-        progressBar.style.display = "block";
-        timer = setInterval(updateProgress, 50);
-        webgazer
-          .setGazeListener(function (data, elapsedTime) {
-            if (data == null) {
-              return;
-            }
-            if (
-              data.x >= focusPoint.offsetLeft &&
-              data.x <= focusPoint.offsetLeft + focusPoint.offsetWidth &&
-              data.y >= focusPoint.offsetTop &&
-              data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
-            ) {
-              gazeTime++;
-              if (gazeTime > maxTime) {
-                maxTime = gazeTime;
-                recordTime.innerHTML = `Record actual: ${maxTime} segundos`;
-              }
-            } else {
-              gazeTime = 0;
-            }
-          })
-          .begin();
-      });
-
-      const exitBtn = document.getElementById("exitBtn");
-      exitBtn.addEventListener("click", function () {
-        window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
-      });
+  webgazer
+    .setGazeListener(function(data, timestamp) {
+      if (webgazer.isReady() && !isCalibrated) {
+        webgazer.pause();
+        setTimeout(function() {
+          isCalibrated = true;
+          webgazer.resume();
+        }, 5000);
+      }
+      // Hacer algo con los datos de la mirada
     });
-  </script>
+
+  window.addEventListener("load", function() {
+    const calibrateBtn = document.getElementById("calibrateBtn");
+    const progressBar = document.getElementById("progressBar");
+    const focusPoint = document.getElementById("focusPoint");
+    const recordTime = document.getElementById("recordTime");
+    let calibProgress = 0;
+    let maxTime = 0;
+    let timer;
+    let gazeTime = 0;
+
+    function updateProgress() {
+      if (calibProgress === 100) {
+        clearInterval(timer);
+        focusPoint.style.display = "block";
+        recordTime.style.display = "block";
+        // Ocultar el cuadro de la cámara
+        const video = document.querySelector("#webgazerVideoFeed");
+        video.style.display = "none";
+        return;
+      }
+      calibProgress++;
+      progressBar.value = calibProgress;
+    }
+
+    calibrateBtn.addEventListener("click", function() {
+      progressBar.style.display = "block";
+      timer = setInterval(updateProgress, 50);
+      webgazer
+        .setGazeListener(function(data, elapsedTime) {
+          if (data == null) {
+            return;
+          }
+          if (
+            data.x >= focusPoint.offsetLeft &&
+            data.x <= focusPoint.offsetLeft + focusPoint.offsetWidth &&
+            data.y >= focusPoint.offsetTop &&
+            data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
+          ) {
+            gazeTime++;
+            if (gazeTime > maxTime) {
+              maxTime = gazeTime;
+              recordTime.innerHTML = `Record actual: ${maxTime} segundos`;
+            }
+          } else {
+            gazeTime = 0;
+          }
+        })
+        .begin();
+    });
+
+    const exitBtn = document.getElementById("exitBtn");
+    exitBtn.addEventListener("click", function() {
+      window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
+    });
+  });
+</script>
+  
 
   <style>
     body {
