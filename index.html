@@ -10,25 +10,28 @@
   <script>
     let isCalibrated = false;
 
-    webgazer.setGazeListener(function (data, timestamp) {
-      if (data == null) {
-        return;
-      }
-      // Hacer algo con los datos de la mirada
-    }).begin();
+    webgazer
+      .setGazeListener(function (data, timestamp) {
+        if (data == null) {
+          return;
+        }
+        // Hacer algo con los datos de la mirada
+      })
+      .begin();
 
-    webgazer.setGazeListener(function (data, timestamp) {
-      if (webgazer.getTracker().getIsReady() && !isCalibrated) {
-        webgazer.pause();
-        setTimeout(function () {
-          isCalibrated = true;
-          webgazer.resume();
-        }, 5000);
-      }
-      // Hacer algo con los datos de la mirada
-    });
+    webgazer
+      .setGazeListener(function (data, timestamp) {
+        if (webgazer.isReady() && !isCalibrated) {
+          webgazer.pause();
+          setTimeout(function () {
+            isCalibrated = true;
+            webgazer.resume();
+          }, 5000);
+        }
+        // Hacer algo con los datos de la mirada
+      });
 
-    window.onload = function () {
+    window.addEventListener("load", function () {
       const calibrateBtn = document.getElementById("calibrateBtn");
       const progressBar = document.getElementById("progressBar");
       const focusPoint = document.getElementById("focusPoint");
@@ -82,7 +85,7 @@
       exitBtn.addEventListener("click", function () {
         window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
       });
-    };
+    });
   </script>
 
   <style>
