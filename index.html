@@ -17,6 +17,8 @@
 
     setVideoViewerSize();
 
+    let isCalibrated = false;
+
     webgazer.setGazeListener(function (data, timestamp) {
       if (data == null) {
         return;
