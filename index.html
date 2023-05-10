@@ -7,7 +7,79 @@
   <title>Detector de Movimiento de los Ojos</title>
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
- <script>
+ 
+  
+   <style>
+    
+     .container {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 16px;
+      }
+
+      #startBtn, #stopBtn {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #startBtn:hover, #stopBtn:hover {
+        background-color: #0069d9;
+      }
+
+      #statusText {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      #counterText {
+        margin-top: 20px;
+        font-size: 24px;
+        color: red;
+      }
+
+      #recordText {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      #exitBtn {
+        margin-top: 40px;
+        padding: 10px;
+        background-color: #dc3545;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #exitBtn:hover {
+        background-color: #c82333;
+      }
+    
+  </style>
+</head>
+
+
+<body>
+  <div class="container">
+    <h1>Detector de Movimiento de los Ojos</h1>
+    <p>Semilleros de Investigación - Corporación Universitaria UNITEC</p>
+    <p>Esta aplicación usa la libreria WebGazer.js como modelo de Inteligencia Artificial.</p>
+    <p>Haga clic en el botón a continuación para iniciar la calibración:</p>
+      <button id="startBtn">Iniciar Calibración</button>
+      <p id="statusText"></p>
+      <p id="counterText"></p>
+      <p id="recordText"></p>
+      <button id="stopBtn" style="display:none;">Detener</button>
+      <button id="exitBtn">Salir de la sesión</button>
+
+    <button id="exitBtn">Salir de la sesión</button>
+</body>
+<script>
   let isCalibrated = false;
   let counter = 0;
   let record = 0;
@@ -98,77 +170,5 @@
     window.location.href = "TU LINK AQUÍ";
   });
 </script>
-
-  
-<style>
-    
-     .container {
-        max-width: 800px;
-        margin: 0 auto;
-        font-size: 16px;
-      }
-
-      #startBtn, #stopBtn {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-      }
-
-      #startBtn:hover, #stopBtn:hover {
-        background-color: #0069d9;
-      }
-
-      #statusText {
-        margin-top: 20px;
-        font-size: 18px;
-      }
-
-      #counterText {
-        margin-top: 20px;
-        font-size: 24px;
-        color: red;
-      }
-
-      #recordText {
-        margin-top: 20px;
-        font-size: 18px;
-      }
-
-      #exitBtn {
-        margin-top: 40px;
-        padding: 10px;
-        background-color: #dc3545;
-        color: #fff;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-      }
-
-      #exitBtn:hover {
-        background-color: #c82333;
-      }
-    
-  </style>
-</head>
-
-
-<body>
-  <div class="container">
-    <h1>Detector de Movimiento de los Ojos</h1>
-    <p>Semilleros de Investigación - Corporación Universitaria UNITEC</p>
-    <p>Esta aplicación usa la libreria WebGazer.js como modelo de Inteligencia Artificial.</p>
-    <p>Haga clic en el botón a continuación para iniciar la calibración:</p>
-      <button id="startBtn">Iniciar Calibración</button>
-      <p id="statusText"></p>
-      <p id="counterText"></p>
-      <p id="recordText"></p>
-      <button id="stopBtn" style="display:none;">Detener</button>
-      <button id="exitBtn">Salir de la sesión</button>
-
-    <button id="exitBtn">Salir de la sesión</button>
-</body>
 
 </html>
