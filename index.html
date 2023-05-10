@@ -8,11 +8,11 @@
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
   <script>
-    
     window.onload = function () {
   const startBtn = document.getElementById("startBtn");
   const progressBar = document.getElementById("progressBar");
   const focusPoint = document.getElementById("focusPoint");
+  const timerElement = document.getElementById("timerTime");
   const recordTimeElement = document.getElementById("recordTime");
   const exitBtn = document.getElementById("exitBtn");
 
@@ -24,7 +24,7 @@
   function updateProgress() {
     if (calibProgress === 100) {
       focusPoint.style.display = "block";
-      recordTimeElement.style.display = "block";
+      timerElement.style.display = "block";
       return;
     }
     calibProgress++;
@@ -52,6 +52,7 @@
             maxTime = gazeTime;
             recordTimeElement.innerHTML = `Record actual: ${maxTime} segundos`;
           }
+          timerElement.innerHTML = `Tiempo actual: ${gazeTime} segundos`;
         } else {
           gazeTime = 0;
         }
@@ -65,7 +66,8 @@
 
   startBtn.addEventListener("click", startCalibration);
   exitBtn.addEventListener("click", exitSession);
-};    
+};
+    
   </script>
   <style>
     body {
