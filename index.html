@@ -10,8 +10,7 @@
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
   <script>
-    
-     window.onload = function () {
+      window.onload = function () {
         const startBtn = document.getElementById("startBtn");
         const calibrationProgress = document.getElementById("calibrationProgress");
         const pointDiv = document.getElementById("pointDiv");
@@ -81,19 +80,18 @@
           window.location.href = "TU LINK AQUÍ";
         });
       };
-
-  </script>
+    </script>
 
 
   <style>
     
-    .container {
+     .container {
         max-width: 800px;
         margin: 0 auto;
         font-size: 16px;
       }
 
-      #startBtn {
+      #startBtn, #stopBtn {
         padding: 10px;
         background-color: #007bff;
         color: #fff;
@@ -102,17 +100,39 @@
         cursor: pointer;
       }
 
-      #startBtn:hover {
+      #startBtn:hover, #stopBtn:hover {
         background-color: #0069d9;
       }
 
-      #calibrationProgress {
-        margin-bottom: 20px;
+      #statusText {
+        margin-top: 20px;
+        font-size: 18px;
       }
 
-      #pointDiv {
-        position: absolute;
-        top: 50%;
+      #counterText {
+        margin-top: 20px;
+        font-size: 24px;
+        color: red;
+      }
+
+      #recordText {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      #exitBtn {
+        margin-top: 40px;
+        padding: 10px;
+        background-color: #dc3545;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #exitBtn:hover {
+        background-color: #c82333;
+      }
     
   </style>
 </head>
@@ -124,14 +144,12 @@
     <p>Semilleros de Investigación - Corporación Universitaria UNITEC</p>
     <p>Esta aplicación usa la libreria WebGazer.js como modelo de Inteligencia Artificial.</p>
     <p>Haga clic en el botón a continuación para iniciar la calibración:</p>
-    
-     
       <button id="startBtn">Iniciar Calibración</button>
-    </div>
-
-    <div id="gazeDot"></div>
-    <div id="timerContainer">Tiempo: <span id="timerValue">0</span>s</div>
-    <div id="recordContainer">Record: <span id="recordValue">0</span>s</div>
+      <p id="statusText"></p>
+      <p id="counterText"></p>
+      <p id="recordText"></p>
+      <button id="stopBtn" style="display:none;">Detener</button>
+      <button id="exitBtn">Salir de la sesión</button>
 
     <button id="exitBtn">Salir de la sesión</button>
 </body>
