@@ -12,24 +12,34 @@
   <script>
     let isCalibrated = false;
 
-    webgazer.setGazeListener(function (data, timestamp) {
-      if (data == null) {
-        return;
-      }
-      // Hacer algo con los datos de la mirada
-    })
-      .begin();
 
-    webgazer.setGazeListener(function (data, timestamp) {
-      if (webgazer.isReady() && !isCalibrated) {
-        webgazer.pause();
-        setTimeout(function () {
+
+    webgazer
+      .begin()
+      .showVideoPreview(false)
+      .showPredictionPoints(false)
+      .hideCursor();
+    webgazer
+      .setGazeListener(function (data, elapsedTime) {
+        if (data == null) {
+          return;
+        }
+        if (!isCalibrated) {
           isCalibrated = true;
-          webgazer.resume();
-        }, 5000);
-      }
-      updateProgress();
-    });
+          // Hacer algo después de que la calibración esté completa
+          progressBar.style.display = "block";
+          timer = setInterval(updateProgress, 50);
+          focusPoint.style.display = "block";
+          recordTime.style.display = "block";
+          // Ocultar el cuadro de la cámara
+          const video = document.querySelector("#webgazerVideoFeed");
+          video.style.display = "none";
+        } else {
+          // Hacer algo con los datos de la mirada
+        }
+      });
+
+
 
 
     window.addEventListener("load", function () {
@@ -45,6 +55,8 @@
       function updateProgress() {
         if (calibProgress === 100) {
           clearInterval(timer);
+          progressBar.value = 0;
+          progressBar.style.display = "none";
           focusPoint.style.display = "block";
           recordTime.style.display = "block";
           // Ocultar el cuadro de la cámara
@@ -54,6 +66,8 @@
         }
         calibProgress++;
         progressBar.value = calibProgress;
+        progressBar.setAttribute("aria-valuenow", calibProgress);
+        progressBar.innerHTML = `${calibProgress}% de calibración completada`;
       }
 
       calibrateBtn.addEventListener("click", function () {
@@ -71,12 +85,13 @@
               data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
             ) {
               gazeTime++;
-              maxTime = Math.max(maxTime, gazeTime); // Actualizar la variable maxTime
-              recordTime.innerHTML = `Record actual: ${maxTime} segundos`;
+              if (gazeTime > maxTime) {
+                maxTime = gazeTime;
+                recordTime.innerHTML = `Tiempo actual: ${gazeTime} segundos`;
+              }
             } else {
               gazeTime = 0;
             }
-
           })
           .begin();
       });
@@ -214,7 +229,8 @@
       <p>Record del tiempo más largo en segundos:</p>
       <div id="recordTime">0</div>
     </div>
-    <a id="exitBtn" href="https://forms.office.com/r/ZK1XWqwWAN">Salir</a>
+    <button id="exitBtn">Salir de la sesión</button>
+  </div>
 </body>
 
 </html>
