@@ -8,58 +8,64 @@
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
 
   <script>
+    
     window.onload = function () {
-      const startBtn = document.getElementById("startBtn");
-      const progressBar = document.getElementById("progressBar");
-      const focusPoint = document.getElementById("focusPoint");
-      const recordTime = document.getElementById("recordTime");
-      let calibProgress = 0;
-      let maxTime = 0;
-      let timer;
-      let gazeTime = 0;
+  const startBtn = document.getElementById("startBtn");
+  const progressBar = document.getElementById("progressBar");
+  const focusPoint = document.getElementById("focusPoint");
+  const recordTimeElement = document.getElementById("recordTime");
+  const exitBtn = document.getElementById("exitBtn");
 
-      function updateProgress() {
-        if (calibProgress === 100) {
-          clearInterval(timer);
-          focusPoint.style.display = "block";
-          recordTime.style.display = "block";
+  let calibProgress = 0;
+  let maxTime = 0;
+  let timer;
+  let gazeTime = 0;
+
+  function updateProgress() {
+    if (calibProgress === 100) {
+      focusPoint.style.display = "block";
+      recordTimeElement.style.display = "block";
+      return;
+    }
+    calibProgress++;
+    progressBar.value = calibProgress;
+
+    requestAnimationFrame(updateProgress);
+  }
+
+  function startCalibration() {
+    progressBar.style.display = "block";
+    timer = setInterval(updateProgress, 50);
+    webgazer
+      .setGazeListener(function (data, elapsedTime) {
+        if (data == null) {
           return;
         }
-        calibProgress++;
-        progressBar.value = calibProgress;
-      }
+        if (
+          data.x >= focusPoint.offsetLeft &&
+          data.x <= focusPoint.offsetLeft + focusPoint.offsetWidth &&
+          data.y >= focusPoint.offsetTop &&
+          data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
+        ) {
+          gazeTime++;
+          if (gazeTime > maxTime) {
+            maxTime = gazeTime;
+            recordTimeElement.innerHTML = `Record actual: ${maxTime} segundos`;
+          }
+        } else {
+          gazeTime = 0;
+        }
+      })
+      .begin();
+  }
 
-      startBtn.addEventListener("click", function () {
-        progressBar.style.display = "block";
-        timer = setInterval(updateProgress, 50);
-        webgazer
-          .setGazeListener(function (data, elapsedTime) {
-            if (data == null) {
-              return;
-            }
-            if (
-              data.x >= focusPoint.offsetLeft &&
-              data.x <= focusPoint.offsetLeft + focusPoint.offsetWidth &&
-              data.y >= focusPoint.offsetTop &&
-              data.y <= focusPoint.offsetTop + focusPoint.offsetHeight
-            ) {
-              gazeTime++;
-              if (gazeTime > maxTime) {
-                maxTime = gazeTime;
-                recordTime.innerHTML = `Record actual: ${maxTime} segundos`;
-              }
-            } else {
-              gazeTime = 0;
-            }
-          })
-          .begin();
-      });
+  function exitSession() {
+    window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
+  }
 
-      const exitBtn = document.getElementById("exitBtn");
-      exitBtn.addEventListener("click", function () {
-        window.location.href = "https://forms.office.com/r/ZK1XWqwWAN";
-      });
-    };
+  startBtn.addEventListener("click", startCalibration);
+  exitBtn.addEventListener("click", exitSession);
+};    
   </script>
   <style>
     body {
